@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 const RegisterStudentForm = () => {
@@ -36,22 +37,25 @@ const RegisterStudentForm = () => {
     }
 
     try {
-      const response = await fetch("/api/register-student", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ studentName, email, hostelType, selectedHostel, roomType }),
-      });
-
-      if (response.ok) {
-        setMessage("Registration successful!");
-      } else {
-        setMessage("Registration failed. Please try again.");
-      }
-    } catch (error) {
-      setMessage("An error occurred. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+        const response = await axios.post("/api/register-student", {
+            studentName,
+            email,
+            hostelType,
+            selectedHostel,
+            roomType,
+          });
+      
+          if (response.status === 200) {
+            setMessage("Registration successful!");
+          } else {
+            setMessage("Registration failed. Please try again.");
+          }
+        } catch (error) {
+          setMessage("An error occurred. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+      
   };
 
   return (

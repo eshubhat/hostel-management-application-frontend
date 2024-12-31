@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import axios from "axios";
 const CreateHostelForm = () => {
   const [hostelName, setHostelName] = useState("");
   const [hostelType, setHostelType] = useState(""); 
@@ -12,30 +12,23 @@ const CreateHostelForm = () => {
     setLoading(true); 
     
     try {
-      // Assuming your backend API endpoint is '/api/create-hostel'
-      const response = await fetch("/api/create-hostel", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+        const response = await axios.post("/api/create-hostel", {
           hostelName,
           hostelType, 
           numberOfSeats,
-        }),
-      });
-
-      if (response.ok) {
-        setMessage("Hostel created successfully!");
-      } else {
-        setMessage("Failed to create hostel. Please try again.");
+        });
+  
+        if (response.status === 200) {
+          setMessage("Hostel created successfully!");
+        } else {
+          setMessage("Failed to create hostel. Please try again.");
+        }
+      } catch (error) {
+        setMessage("An error occurred. Please try again.");
+      } finally {
+        setLoading(false); 
       }
-    } catch (error) {
-      setMessage("An error occurred. Please try again.");
-    } finally {
-      setLoading(false); 
-    }
-  };
+    };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#172554]">
