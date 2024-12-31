@@ -2,13 +2,39 @@ import React, { useState } from "react";
 
 const CreateHostelForm = () => {
   const [hostelName, setHostelName] = useState("");
-  const [capacity, setCapacity] = useState("");
-  const [location, setLocation] = useState("");
+  const [hostelType, setHostelType] = useState(""); 
+  const [numberOfSeats, setNumberOfSeats] = useState(""); 
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleCreate = (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
-    setMessage("Hostel created successfully!"); // Add actual creation logic here
+    setLoading(true); 
+    
+    try {
+      // Assuming your backend API endpoint is '/api/create-hostel'
+      const response = await fetch("/api/create-hostel", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          hostelName,
+          hostelType, 
+          numberOfSeats,
+        }),
+      });
+
+      if (response.ok) {
+        setMessage("Hostel created successfully!");
+      } else {
+        setMessage("Failed to create hostel. Please try again.");
+      }
+    } catch (error) {
+      setMessage("An error occurred. Please try again.");
+    } finally {
+      setLoading(false); 
+    }
   };
 
   return (
@@ -27,27 +53,38 @@ const CreateHostelForm = () => {
             required
             className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
           />
+          
+          <div className="mb-4">
+            <label className="block text-gray-700">Hostel Type</label>
+            <select
+              value={hostelType}
+              onChange={(e) => setHostelType(e.target.value)}
+              required
+              className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
+            >
+              <option value="">Select Type</option>
+              <option value="Girls">Girls</option>
+              <option value="Boys">Boys</option>
+            </select>
+          </div>
+
           <input
             type="number"
-            placeholder="Capacity"
-            value={capacity}
-            onChange={(e) => setCapacity(e.target.value)}
+            placeholder="Number of Seats"
+            value={numberOfSeats}
+            onChange={(e) => setNumberOfSeats(e.target.value)}
             required
+            min="1" 
             className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
           />
-          <input
-            type="text"
-            placeholder="Location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            required
-            className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
-          />
+          
+          
           <button
             type="submit"
             className="w-full p-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600"
+            disabled={loading} // Disable the button while loading
           >
-            Create
+            {loading ? "Creating..." : "Create"}
           </button>
         </form>
       </div>
