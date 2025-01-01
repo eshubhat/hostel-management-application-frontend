@@ -77,6 +77,8 @@ const RaiseIssueForm = () => {
               type="text"
               name="roomNumber"
               value={formData.roomNumber}
+              min="1"
+              max="390"
               onChange={handleChange}
               className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
             />
@@ -87,6 +89,8 @@ const RaiseIssueForm = () => {
               type="number"
               name="floorNumber"
               value={formData.floorNumber}
+              min ="0"
+                max="3"
               onChange={handleChange}
               className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
             />
