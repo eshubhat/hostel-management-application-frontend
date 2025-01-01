@@ -4,6 +4,8 @@ import SignupPage from "./Components/SignupPage";
 import Dashboard from "./Components/Dashboard";
 import RegisterStudentForm from "./Components/RegisterStudentForm";
 import CreateHostelForm from "./Components/CreateHostelForm";
+import Home from "./student view/Home";
+import MaintenanceRequests from "./student view/MaintenanceRequests";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/register" element={<RegisterStudentForm/>} />
         <Route path="/create-hostel" element={<CreateHostelForm/>}/>
+        <Route path="/home" element={<Home />} />
+        <Route path="/maintenance-requests" element={<MaintenanceRequests/>} />
       </Routes>
     </Router>
   );

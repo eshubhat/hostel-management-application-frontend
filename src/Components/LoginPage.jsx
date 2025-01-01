@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const LoginPage = () => {
@@ -8,6 +9,8 @@ const LoginPage = () => {
   const [emailForReset, setEmailForReset] = useState("");
   const [message, setMessage] = useState("");
 
+  const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -15,8 +18,14 @@ const LoginPage = () => {
         email,
         password,
       });
-      console.log(response.data);
-      // Handle successful login (e.g., save JWT, redirect)
+      const { token } = response.data;
+      if (token) {
+        localStorage.setItem("jwtToken", token); // Save the token only if it exists
+        navigate("/home"); // Redirect to the home page
+      } else {
+        setError("No token received. Please try again.");
+      }
+      
     } catch (error) {
       console.error(error.response.data);
       setMessage("Login failed. Please check your credentials.");
