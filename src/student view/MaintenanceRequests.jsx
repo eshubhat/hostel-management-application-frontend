@@ -6,7 +6,6 @@ import axios from "axios";
 const RaiseIssueForm = () => {
   const [formData, setFormData] = useState({
     name: "",
-    registrationNumber: "",
     roomNumber: "",
     floorNumber: "",
     tag: "",
@@ -28,7 +27,6 @@ const RaiseIssueForm = () => {
         setErrorMessage("");
         setFormData({
           name: "",
-          registrationNumber: "",
           roomNumber: "",
           floorNumber: "",
           tag: "",
@@ -60,17 +58,7 @@ const RaiseIssueForm = () => {
               required
             />
           </div>
-          <div>
-            <label className="block text-gray-700 mb-1">Registration Number</label>
-            <input
-              type="text"
-              name="registrationNumber"
-              value={formData.registrationNumber}
-              onChange={handleChange}
-              className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
-              required
-            />
-          </div>
+          
           <div>
             <label className="block text-gray-700 mb-1">Room Number</label>
             <input
