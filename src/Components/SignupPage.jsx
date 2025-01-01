@@ -24,10 +24,12 @@ const SignupPage = () => {
         email,
         password,
       });
-      setMessage(response.data.message);
-      if (response.data.success) {
-        // If signup is successful, redirect to login page
-        navigate("/login");
+      const { token } = response.data;
+      if (token) {
+        localStorage.setItem("jwtToken", token); // Save the token only if it exists
+        navigate("/home"); // Redirect to the home page
+      } else {
+        setError("No token received. Please try again.");
       }
     } catch (error) {
       setMessage("Error occurred while creating your account. Please try again.");
