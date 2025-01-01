@@ -20,7 +20,8 @@ const SignupPage = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/signup", {
+      const apiurl = import.meta.env.URL;
+      const response = await axios.post("${apiurl}/signup", {
         email,
         password,
       });

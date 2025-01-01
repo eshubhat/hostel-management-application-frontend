@@ -12,7 +12,8 @@ const CreateHostelForm = () => {
     setLoading(true); 
     
     try {
-        const response = await axios.post("/api/create-hostel", {
+      const apiurl = import.meta.env.URL;
+        const response = await axios.post("${apiurl}/create-hostel", {
           hostelName,
           hostelType, 
           numberOfSeats,
