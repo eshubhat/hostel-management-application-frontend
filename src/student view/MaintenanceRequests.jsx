@@ -21,7 +21,8 @@ const RaiseIssueForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://your-api-url.com/issues", formData);
+        const apiurl = import.meta.env.URL;
+      const response = await axios.post("${apiurl}/issues", formData);
       if (response.status === 200) {
         setSuccessMessage("Issue raised successfully!");
         setErrorMessage("");

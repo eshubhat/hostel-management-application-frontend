@@ -37,7 +37,8 @@ const RegisterStudentForm = () => {
     }
 
     try {
-        const response = await axios.post("/api/register-student", {
+      const apiurl = import.meta.env.URL;
+        const response = await axios.post("${apiurl}/register-student", {
             studentName,
             email,
             hostelType,

@@ -14,7 +14,8 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
+      const apiurl = import.meta.env.URL;
+      const response = await axios.post("${apiurl}/login", {
         email,
         password,
       });
