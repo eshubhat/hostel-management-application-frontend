@@ -1,7 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+    const navigate = useNavigate();
+    const handleLogout = () => {
+    localStorage.removeItem("jwtToken");
+    navigate("/login");
+    };
   return (
     <nav className="bg-[#172554] p-4">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -24,6 +30,11 @@ const Navbar = () => {
           </li>
           <li>
             <Link to="/rules-and-regulations" className="text-white hover:text-blue-300">Rules & Regulations</Link>
+          </li>
+          <li>
+            <button onClick={handleLogout} className="text-white hover:text-blue-300">
+              Log Out
+            </button>
           </li>
         </ul>
       </div>
