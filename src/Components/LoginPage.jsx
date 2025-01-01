@@ -14,7 +14,7 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
+      const response = await axios.post(`${import.meta.env.URL}/auth/login`, {
         email,
         password,
       });
@@ -25,7 +25,6 @@ const LoginPage = () => {
       } else {
         setError("No token received. Please try again.");
       }
-      
     } catch (error) {
       console.error(error.response.data);
       setMessage("Login failed. Please check your credentials.");
@@ -35,9 +34,12 @@ const LoginPage = () => {
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/forgot-password", {
-        email: emailForReset,
-      });
+      const response = await axios.post(
+        `${import.meta.env.URL}/auth/forgot-password`,
+        {
+          email: emailForReset,
+        }
+      );
       setMessage(response.data.message);
     } catch (error) {
       setMessage("Error sending password reset email. Please try again.");
@@ -51,7 +53,7 @@ const LoginPage = () => {
           {isForgotPassword ? "Forgot Password" : "Login"}
         </h2>
         {message && <p className="text-red-500 text-center mb-4">{message}</p>}
-        
+
         {!isForgotPassword ? (
           <form onSubmit={handleLogin}>
             <input

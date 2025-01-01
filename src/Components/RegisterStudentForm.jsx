@@ -37,25 +37,27 @@ const RegisterStudentForm = () => {
     }
 
     try {
-        const response = await axios.post("/api/register-student", {
-            studentName,
-            email,
-            hostelType,
-            selectedHostel,
-            roomType,
-          });
-      
-          if (response.status === 200) {
-            setMessage("Registration successful!");
-          } else {
-            setMessage("Registration failed. Please try again.");
-          }
-        } catch (error) {
-          setMessage("An error occurred. Please try again.");
-        } finally {
-          setLoading(false);
+      const response = await axios.post(
+        `${import.meta.env.URL}/auth/register-student`,
+        {
+          studentName,
+          email,
+          hostelType,
+          selectedHostel,
+          roomType,
         }
-      
+      );
+
+      if (response.status === 200) {
+        setMessage("Registration successful!");
+      } else {
+        setMessage("Registration failed. Please try again.");
+      }
+    } catch (error) {
+      setMessage("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -64,7 +66,9 @@ const RegisterStudentForm = () => {
         <h2 className="text-2xl font-semibold text-[#172554] text-center mb-6">
           Register Student
         </h2>
-        {message && <p className="text-green-500 text-center mb-4">{message}</p>}
+        {message && (
+          <p className="text-green-500 text-center mb-4">{message}</p>
+        )}
         <form onSubmit={handleRegister}>
           {/* Student Name */}
           <input
