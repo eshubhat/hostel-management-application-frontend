@@ -6,6 +6,10 @@ import RegisterStudentForm from "./Components/RegisterStudentForm";
 import CreateHostelForm from "./Components/CreateHostelForm";
 import Home from "./student view/Home";
 import MaintenanceRequests from "./student view/MaintenanceRequests";
+import MessScheduleFeedback from "./student view/MessScheduleFeedback";
+import RequestRoomChange from "./student view/RequestRoomChange";
+import RulesRegulations from "./student view/RulesRegulations";
+//import Contacts from "./student view/Contacts";
 
 function App() {
   return (
@@ -18,6 +22,10 @@ function App() {
         <Route path="/create-hostel" element={<CreateHostelForm/>}/>
         <Route path="/home" element={<Home />} />
         <Route path="/maintenance-requests" element={<MaintenanceRequests/>} />
+        <Route path="/mess-schedule-feedback" element={<MessScheduleFeedback/>}/>
+        <Route path="/request-room-change" element={<RequestRoomChange/>}/>
+        <Route path="/rules-and-regulations" element={<RulesRegulations/>} />
+        {/* <Route path="/contacts" element={<Contacts/>}/> */}
       </Routes>
     </Router>
   );
