@@ -1,13 +1,31 @@
-
-import React from "react";
-import Navbar from "./Navbar"; // Import the Navbar component
-import websiteImage from "./bg-pic.jpg"; // Example image path, make sure to replace it with your image
+import React, { useEffect, useState } from "react";
+import jwtDecode from "jsonwebtoken"; // Import jwtDecode to parse JWT
+import WardenNavbar from "./warden view/WardenNavbar"; // Import the Warden Navbar
+import StudentNavbar from "./student view/StudentNavbar"; // Import the Student Navbar
+import websiteImage from "./student view/bg-pic.jpg"; // Example image path, make sure to replace it with your image
 
 const Home = () => {
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token"); // Retrieve the JWT from local storage or cookies
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token); // Decode the JWT
+        setRole(decodedToken.role); // Extract the role from the token payload
+      } catch (error) {
+        console.error("Failed to decode token:", error);
+      }
+    } else {
+      console.warn("No token found, defaulting role to student");
+      setRole("student"); // Default role if token is missing
+    }
+  }, []);
+
   return (
     <div className="relative min-h-screen">
-      {/* Navbar will be present on the Home page */}
-      <Navbar />
+      {/* Conditionally render the appropriate Navbar */}
+      {role === "warden" ? <WardenNavbar /> : <StudentNavbar />}
 
       {/* Background image */}
       <div
@@ -44,13 +62,12 @@ const Home = () => {
             <li>Comprehensive mess schedule with weekly menu details.</li>
           </ul>
           <p className="mb-6">
-          Through the Hostel Management System, we seek to develop a culture of efficiency, safety, and
+            Through the Hostel Management System, we seek to develop a culture of efficiency, safety, and
             convenience, which will enable the students to concentrate on their academic and
             personal growth while enjoying a hassle-free hostel life.
-
           </p>
           <p className="font-bold text-2xl md:text-2xl">
-          Transforming hostel life into a journey of comfort, convenience, and community at KLE Technological University.
+            Transforming hostel life into a journey of comfort, convenience, and community at KLE Technological University.
           </p>
         </div>
       </div>
@@ -59,4 +76,3 @@ const Home = () => {
 };
 
 export default Home;
-

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const RequestRoomChange = () => {
   const [formData, setFormData] = useState({
@@ -7,27 +8,62 @@ const RequestRoomChange = () => {
     reason: "",
   });
 
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const token = localStorage.getItem("jwt"); // Get the JWT from local storage
+  const apiUrl = import.meta.env.URL; // Replace with your actual API URL
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Submit form data to backend or API for processing
-    console.log("Room Change Request Submitted:", formData);
-    // Reset form after submission
-    setFormData({
-      currentRoom: "",
-      requestedRoom: "",
-      reason: "",
-    });
+
+    if (!token) {
+      setErrorMessage("You must be logged in to request a room change.");
+      return;
+    }
+
+    try {
+      // Send the room change request to the backend with the JWT token
+      const response = await axios.post(
+        `${apiUrl}/room-change-requests`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the JWT in the header
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setSuccessMessage("Room change request submitted successfully!");
+        setErrorMessage("");
+        setFormData({
+          currentRoom: "",
+          requestedRoom: "",
+          reason: "",
+        });
+      }
+    } catch (error) {
+      setErrorMessage("Failed to submit room change request. Please try again.");
+      setSuccessMessage("");
+    }
   };
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold text-[#dadce2]">Request Room Change</h1>
       <p className="text-lg mt-4">Fill in the details below to request a room change.</p>
+
+      {/* Display success or error messages */}
+      {successMessage && (
+        <p className="text-green-500 mt-4">{successMessage}</p>
+      )}
+      {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <div>
