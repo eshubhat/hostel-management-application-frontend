@@ -4,11 +4,12 @@ import SignupPage from "./Components/SignupPage";
 import Dashboard from "./Components/Dashboard";
 import RegisterStudentForm from "./Components/RegisterStudentForm";
 import CreateHostelForm from "./Components/CreateHostelForm";
-import Home from "./student view/Home";
+import Home from "./Home";
 import MaintenanceRequests from "./student view/MaintenanceRequests";
 import MessScheduleFeedback from "./student view/MessScheduleFeedback";
 import RequestRoomChange from "./student view/RequestRoomChange";
 import RulesRegulations from "./student view/RulesRegulations";
+import ViewMessFeedback from "./warden view/ViewMessFeedback";
 //import Contacts from "./student view/Contacts";
 
 function App() {
@@ -26,6 +27,9 @@ function App() {
         <Route path="/request-room-change" element={<RequestRoomChange/>}/>
         <Route path="/rules-and-regulations" element={<RulesRegulations/>} />
         {/* <Route path="/contacts" element={<Contacts/>}/> */}
+
+        <Route path="/warden/view-issues" element={<ViewMaintenanceRequests/>}/>
+        <Route path="/warden/mess-feedback" element={<ViewMessFeedback/>}/>
       </Routes>
     </Router>
   );

@@ -1,8 +1,10 @@
+
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const WardenNavbar = () => {
     const navigate = useNavigate();
     const handleLogout = () => {
     localStorage.removeItem("jwtToken");
@@ -17,19 +19,13 @@ const Navbar = () => {
             <Link to="/home" className="text-white hover:text-blue-300">Home</Link>
           </li>
           <li>
-            <Link to="/maintenance-requests" className="text-white hover:text-blue-300">Maintenance Requests</Link>
+            <Link to="/warden/maintenance-requests" className="text-white hover:text-blue-300">Maintenance Requests</Link>
           </li>
           <li>
-            <Link to="/mess-schedule-feedback" className="text-white hover:text-blue-300">Mess Schedule & Feedback</Link>
+            <Link to="/warden/mess-schedule-feedback" className="text-white hover:text-blue-300">Mess Feedback</Link>
           </li>
           <li>
-            <Link to="/contacts" className="text-white hover:text-blue-300">Contacts</Link>
-          </li>
-          <li>
-            <Link to="/request-room-change" className="text-white hover:text-blue-300">Request Room Change</Link>
-          </li>
-          <li>
-            <Link to="/rules-and-regulations" className="text-white hover:text-blue-300">Rules & Regulations</Link>
+            <Link to="/warden/room-change-requests" className="text-white hover:text-blue-300"> Room Change Requests</Link>
           </li>
           <li>
             <button onClick={handleLogout} className="text-white hover:text-blue-300">
@@ -42,4 +38,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default WardenNavbar;
