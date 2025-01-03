@@ -14,14 +14,27 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-
-      const response = await axios.post(`${import.meta.env.URL}/auth/login`, {
-        email,
-        password,
-      });
-      const { token } = response.data;
+      console.log(`${import.meta.env.URL}/auth/login`);
+      const response = await axios.post(
+        `http://localhost:8080/auth/login`,
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const { token, isFirstLogin } = response.data;
       if (token) {
         localStorage.setItem("jwtToken", token); // Save the token only if it exists
+        if (isFirstLogin) {
+          navigate("/change-password"); // Redirect to change password page
+          return;
+        }
         navigate("/home"); // Redirect to the home page
       } else {
         setError("No token received. Please try again.");

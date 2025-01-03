@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RegisterStudentForm = () => {
+  const navigate = useNavigate();
   const [studentName, setStudentName] = useState("");
   const [email, setEmail] = useState("");
   const [hostelType, setHostelType] = useState(""); // For Hostel Type (Girls/Boys)
@@ -18,9 +20,22 @@ const RegisterStudentForm = () => {
   };
 
   useEffect(() => {
-    // Dynamically update hostels when hostelType changes.
-    setHostels(hostelType ? availableHostels[hostelType] : []);
-    // Reset dependent fields when the previous input changes.
+    const fetchHostels = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/representative/fetch-hostels`,
+          { withCredentials: true }
+        );
+        if (response.status === 200) {
+          console.log(response.data);
+          setHostels(response.data);
+        }
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching hostels:", error);
+      }
+    };
+    fetchHostels();
     setSelectedHostel("");
     setRoomType("");
   }, [hostelType]);
@@ -29,27 +44,27 @@ const RegisterStudentForm = () => {
     e.preventDefault();
     setLoading(true);
 
-    const universityEmailPattern = /@university\.edu$/;
-    if (!universityEmailPattern.test(email)) {
-      setMessage("Please enter a valid university email.");
-      setLoading(false);
-      return;
-    }
-
     try {
       const response = await axios.post(
-        `${import.meta.env.URL}/auth/register-student`,
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/representative/studentRegistration`,
         {
           studentName,
           email,
           hostelType,
           selectedHostel,
           roomType,
+        },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
         }
       );
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         setMessage("Registration successful!");
+        navigate("/home");
       } else {
         setMessage("Registration failed. Please try again.");
       }
@@ -100,8 +115,8 @@ const RegisterStudentForm = () => {
               className="w-full p-3 border border-gray-300 rounded-lg"
             >
               <option value="">Select Hostel Type</option>
-              <option value="Girls">Girls</option>
-              <option value="Boys">Boys</option>
+              <option value="female">Girls</option>
+              <option value="male">Boys</option>
             </select>
           </div>
 
@@ -117,8 +132,8 @@ const RegisterStudentForm = () => {
             >
               <option value="">Select Hostel</option>
               {hostels.map((hostel) => (
-                <option key={hostel} value={hostel}>
-                  {hostel}
+                <option key={hostel._id} value={hostel._id}>
+                  {hostel.name}
                 </option>
               ))}
             </select>
@@ -135,9 +150,10 @@ const RegisterStudentForm = () => {
               className="w-full p-3 border border-gray-300 rounded-lg"
             >
               <option value="">Select Room Type</option>
-              <option value="2-sharing">2-sharing</option>
-              <option value="4-sharing">4-sharing</option>
-              <option value="6-sharing">6-sharing</option>
+              <option value="single">1-sharing</option>
+              <option value="double">2-sharing</option>
+              <option value="triple">4-sharing</option>
+              <option value="bunker">6-sharing</option>
             </select>
           </div>
 
